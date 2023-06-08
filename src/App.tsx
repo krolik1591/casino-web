@@ -6,7 +6,7 @@ function App() {
     const [wheelExist, setWheelExist] = React.useState(undefined)
 
     async function getFortuneWheel() {
-        const res = await fetch("http://localhost:8080/backend/get_fortune_wheel")
+        const res = await fetch("http://localhost:8080/get_fortune_wheel")
         const resJson = await res.json()
         console.log(JSON.stringify(resJson))
         return resJson
@@ -16,7 +16,7 @@ function App() {
         event.preventDefault()
         alert(JSON.stringify(input))
 
-        const res = await fetch("http://localhost:8080/backend/create_fortune_wheel", {
+        const res = await fetch("http://localhost:8080/create_fortune_wheel", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(input)
