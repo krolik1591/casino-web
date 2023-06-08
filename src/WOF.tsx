@@ -1,12 +1,13 @@
 import React, {useEffect} from 'react';
 import {Button, Form, FormGroup} from "react-bootstrap";
+import {backendUrl} from "./config";
 
-function App() {
+function WOF() {
     const [input, setInput] = React.useState({ticket_cost: 100, end_date: 0, commission: 10, winners: 1, distribution: []})
     const [wheelExist, setWheelExist] = React.useState(undefined)
 
     async function getFortuneWheel() {
-        const res = await fetch("http://localhost:8080/get_fortune_wheel")
+        const res = await fetch(backendUrl + "/get_fortune_wheel")
         const resJson = await res.json()
         console.log(JSON.stringify(resJson))
         return resJson
@@ -16,7 +17,7 @@ function App() {
         event.preventDefault()
         alert(JSON.stringify(input))
 
-        const res = await fetch("http://localhost:8080/create_fortune_wheel", {
+        const res = await fetch(backendUrl + "/create_fortune_wheel", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(input)
@@ -101,4 +102,4 @@ function App() {
     );
 }
 
-export default App;
+export default WOF;
