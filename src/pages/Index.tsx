@@ -29,7 +29,7 @@ function Login({botName}) {
 
     const handleTelegramResponse = (response) => {
         const res = signIn({
-            token: "",
+            token: "token",
             expiresIn: 99999999,
             tokenType: "Bearer",
             authState: response
