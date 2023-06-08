@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/casino-web/static/css/main.4da62354.css",
-    "main.js": "/casino-web/static/js/main.2a1879ab.js",
+    "main.js": "/casino-web/static/js/main.4678537d.js",
     "index.html": "/casino-web/index.html",
     "main.4da62354.css.map": "/casino-web/static/css/main.4da62354.css.map",
-    "main.2a1879ab.js.map": "/casino-web/static/js/main.2a1879ab.js.map"
+    "main.4678537d.js.map": "/casino-web/static/js/main.4678537d.js.map"
   },
   "entrypoints": [
     "static/css/main.4da62354.css",
-    "static/js/main.2a1879ab.js"
+    "static/js/main.4678537d.js"
   ]
 }
