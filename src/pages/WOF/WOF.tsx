@@ -1,8 +1,11 @@
 import React, {useEffect} from 'react';
 import {Button, Form, FormGroup} from "react-bootstrap";
-import {backendUrl} from "../../config";
+import {backend} from "../../helpers/backend";
+import {useAuthUser} from "react-auth-kit";
 
 function WOF() {
+    const auth = useAuthUser()
+
     const [input, setInput] = React.useState({
         ticket_cost: 100,
         end_date: 0,
@@ -13,20 +16,15 @@ function WOF() {
     const [wheelExist, setWheelExist] = React.useState(undefined)
 
     useEffect(() => {
-        fetch(backendUrl + "/get_fortune_wheel").then(res => res.json()).then(setWheelExist)
+        backend("/get_fortune_wheel", auth()).then(setWheelExist)
     }, [])
 
     async function handleSubmit(event) {
         event.preventDefault()
         alert(JSON.stringify(input))
 
-        const res = await fetch(backendUrl + "/create_fortune_wheel", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(input)
-        })
-        const resJson = await res.json()
-        console.log(resJson)
+        const res = await backend("/create_fortune_wheel", auth(), input)
+        console.log(res)
     }
 
     const handleChange = ({target}) => setInput(values => ({...values, [target.name]: target.value}))
