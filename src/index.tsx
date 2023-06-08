@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {createHashRouter, Navigate, RouterProvider} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Root} from "./Root";
-import WOF from "./WOF";
-import Index from './Main';
+import {Root} from "./pages/Root";
+import WOF from "./pages/WOF/WOF";
+import Index from './pages/Index';
 
 const router = createHashRouter([
   // todo dynamic title?

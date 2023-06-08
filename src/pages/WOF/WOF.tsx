@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Button, Form, FormGroup} from "react-bootstrap";
-import {backendUrl} from "./config";
+import {backendUrl} from "../../config";
 
 function WOF() {
     const [input, setInput] = React.useState({
