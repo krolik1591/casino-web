@@ -16,5 +16,7 @@ export async function backend(url: string, auth: any, data?: any) {
     }
 
     const res = await fetch(backendUrl + url, init)
+    if (res.status >= 400)
+        throw new Error(await res.text())
     return await res.json()
 }
