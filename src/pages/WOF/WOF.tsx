@@ -9,6 +9,8 @@ function WOF() {
     const [wheel, setWheel] = React.useState(undefined)
 
     useEffect(() => {
+        console.log(auth().id)
+
         backend("/get_fortune_wheel", auth()).then(setWheel)
     }, [])
 

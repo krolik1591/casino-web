@@ -11,10 +11,14 @@ export default function CreateWheel() {
         ticket_cost: 100,
         end_date: defaultDate(7),
         commission: 10,
-        distribution: "70, 20, 10"
+        distribution: "70, 20, 10",
+        winner_tickets_count: 0
     })
 
-
+    const handleChange = ({ target }) => {
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        setInput((values) => ({ ...values, [target.name]: value }));
+    };
     async function handleSubmit(event) {
         event.preventDefault()
 
@@ -22,7 +26,9 @@ export default function CreateWheel() {
             ticket_cost: input.ticket_cost,
             end_date: Math.floor(+new Date(input.end_date) / 1000),
             commission: input.commission,
-            distribution: input.distribution.split(",").map(x => +x.trim())
+            distribution: input.distribution.split(",").map(x => +x.trim()),
+            admin_id: auth().id,
+            winner_tickets_count: input.winner_tickets_count
         }
         alert(JSON.stringify(data))
         const res = await backend("/create_fortune_wheel", auth(), data)
@@ -30,7 +36,6 @@ export default function CreateWheel() {
     }
 
 
-    const handleChange = ({target}) => setInput(values => ({...values, [target.name]: target.value}))
     return (
       <div className="container">
 
@@ -48,6 +53,15 @@ export default function CreateWheel() {
               </MyInput>
               <MyInput label={"Winning Distribution"}>
                   <Form.Control type="text" name={'distribution'} value={input.distribution} onChange={handleChange}/>
+              </MyInput>
+              <MyInput label={"Скіко виграшних білетів треба? Ви обрали: " + input.winner_tickets_count}>
+              <Form.Range
+                  name="winner_tickets_count"
+                  value={input.winner_tickets_count}
+                  onChange={handleChange}
+                  min={0}
+                  max={input.distribution.split(",").length}
+              />
               </MyInput>
 
               <Button type='submit'> Create </Button>

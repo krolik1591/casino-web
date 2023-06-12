@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://krolik1591.github.io/casino-web/",
   "dependencies": {
+    "@canvasjs/charts": "^3.7.9",
     "@canvasjs/react-charts": "^1.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
