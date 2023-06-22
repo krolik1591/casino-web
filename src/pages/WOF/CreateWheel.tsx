@@ -84,5 +84,9 @@ export function MyInput({children, label}) {
 function defaultDate(addDays) {
     const result = new Date();
     result.setDate(result.getDate() + addDays);
-    return result.toISOString().slice(0, 10) + "T00:00"
+    return dateToISO(result)
+}
+
+export function dateToISO(date) {
+    return date.toISOString().slice(0, 10) + "T00:00"
 }
