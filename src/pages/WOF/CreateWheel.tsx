@@ -72,7 +72,7 @@ export default function CreateWheel() {
 }
 
 
-function MyInput({children, label}) {
+export function MyInput({children, label}) {
     return <>
         <Form.Label>{label}</Form.Label>
         <InputGroup className="mb-3">

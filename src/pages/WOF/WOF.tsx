@@ -1,8 +1,9 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {backend} from "../../helpers/backend";
 import {useAuthUser} from "react-auth-kit";
 import ShowTickets from "./ShowTickects";
-import CreateWheel from "./CreateWheel";
+import CreateWheel, {dateToISO, MyInput} from "./CreateWheel";
+import {Button, Form} from "react-bootstrap";
 
 function WOF() {
     const auth = useAuthUser()
@@ -41,9 +42,10 @@ function ShowWheel({info}) {
             <p> Commission: {wheel.commission} </p>
             <p> Rewards: {wheel.rewards} </p>
             <p> Creation date: {wheel.timestamp_start} </p>
-            <p> End date: {wheel.timestamp_end} </p>
+            <ChangeDate initialDate={new Date(wheel.timestamp_end * 1000)}/>
+
             {winners.map((winner, index) => (
-                <p key={index}> Nearest winner {index+1}: {winner[1]}, Ticket number: {winner[0]} </p>
+                <p key={index}> Nearest winner {index + 1}: User: {winner[1]}, Ticket number: {winner[0]} </p>
             ))}
             <button onClick={handleBuyTicket}>Купити виграшний білет</button>
             <ShowTickets tickets={info.tickets}/>
@@ -51,5 +53,28 @@ function ShowWheel({info}) {
     )
 }
 
+function ChangeDate(props) {
+    const auth = useAuthUser()
+    const [endDate, setEndDate] = useState(dateToISO(props.initialDate))
+
+    async function handleSubmit(event) {
+        event.preventDefault()
+
+        const data = {
+            end_date: Math.floor(+new Date(endDate) / 1000),
+        }
+        alert(JSON.stringify(data))
+        const res = await backend("/change_date_end", auth(), data)
+        console.log(res)
+    }
+
+    return <Form onSubmit={handleSubmit}>
+        <MyInput label={" When spin? "}>
+            <Form.Control type="datetime-local" name={'end_date'} value={endDate} onChange={e => setEndDate(e.target.value)}/>
+            <Button type='submit' variant={'success'}> Edit </Button>
+
+        </MyInput>
+    </Form>
+}
 
 export default WOF;
