@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Form, InputGroup} from "react-bootstrap";
+import {Alert, Button, Container, Form, InputGroup} from "react-bootstrap";
 import {backend} from "../../helpers/backend";
 import {useAuthUser} from "react-auth-kit";
 import { MyInput } from "../../components/MyInput";
@@ -7,6 +7,8 @@ import { MyInput } from "../../components/MyInput";
 
 export default function CreateWheel() {
     const auth = useAuthUser()
+    const [resp, setResp] = useState(undefined)
+
 
     const [input, setInput] = useState({
         ticket_cost: 100,
@@ -20,6 +22,7 @@ export default function CreateWheel() {
         const value = target.type === 'checkbox' ? target.checked : target.value;
         setInput((values) => ({ ...values, [target.name]: value }));
     };
+
     async function handleSubmit(event) {
         event.preventDefault()
 
@@ -31,14 +34,18 @@ export default function CreateWheel() {
             admin_id: auth().id,
             winner_tickets_count: input.winner_tickets_count
         }
-        alert(JSON.stringify(data))
-        const res = await backend("/create_fortune_wheel", auth(), data)
-        console.log(res)
+        backend("/create_fortune_wheel", auth(), data).then(setResp).catch(setResp)
     }
 
+    function Result() {
+        if (resp == undefined) return;
+        if (resp instanceof Error) return <Alert variant={"danger"}> {resp.message} </Alert>
+        window.location.reload();
+        return <Alert variant={"success"}>Колесо створено!</Alert>
+    }
 
     return (
-      <div className="container">
+      <Container>
 
           <h1> Create wheel of fortune </h1>
           <Form onSubmit={handleSubmit}>
@@ -68,7 +75,8 @@ export default function CreateWheel() {
               <Button type='submit'> Create </Button>
           </Form>
 
-      </div>
+          <Result/>
+      </Container>
     );
 }
 
