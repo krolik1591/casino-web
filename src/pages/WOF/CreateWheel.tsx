@@ -34,7 +34,7 @@ export default function CreateWheel() {
             admin_id: auth().id,
             winner_tickets_count: input.winner_tickets_count
         }
-        backend("/create_fortune_wheel", auth(), data).then(setResp).catch(setResp)
+        backend("/wof/create", auth(), data).then(setResp).catch(setResp)
     }
 
     function Result() {

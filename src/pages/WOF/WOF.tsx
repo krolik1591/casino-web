@@ -11,7 +11,7 @@ function WOF() {
     const [wheel, setWheel] = React.useState(undefined)
 
     useEffect(() => {
-        backend("/get_fortune_wheel", auth()).then(setWheel).catch(setWheel);
+        backend("/wof/get", auth()).then(setWheel).catch(setWheel);
     }, [])
 
 
@@ -74,7 +74,7 @@ function BuyTicket() {
 
     const handleBuyTicket = async () => {
         const addTicket = {'admin_id': auth().id}
-        await backend("/add_win_ticket", auth(), addTicket).then(setResp).catch(setResp)
+        await backend("/wof/add_win_ticket", auth(), addTicket).then(setResp).catch(setResp)
     };
 
     function Result() {
@@ -101,7 +101,7 @@ function ChangeDate(props) {
             end_date: Math.floor(+new Date(endDate) / 1000),
         }
 
-        backend("/change_date_end", auth(), data).then(setResp).catch(setResp)
+        backend("/wof/change_date_end", auth(), data).then(setResp).catch(setResp)
     }
 
 
