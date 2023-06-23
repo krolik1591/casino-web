@@ -21,7 +21,7 @@ export default function Index() {
         return <Login botName={botUsername}/>
 
     function BackendInfo() {
-        if (backendInfo == undefined) return <p>Loading backend info...</p>;
+        if (backendInfo === undefined) return <p>Loading backend info...</p>;
         if (backendInfo instanceof Error) return <Alert variant={"danger"}>Backend error: {backendInfo.message}</Alert>;
         return <p> Bot: <a href={backendInfo.bot_info.url}>
             {backendInfo.bot_info.name} (@{backendInfo.bot_info.username})

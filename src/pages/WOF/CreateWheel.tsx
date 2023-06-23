@@ -38,7 +38,7 @@ export default function CreateWheel() {
     }
 
     function Result() {
-        if (resp == undefined) return;
+        if (resp === undefined) return;
         if (resp instanceof Error) return <Alert variant={"danger"}> {resp.message} </Alert>
         window.location.reload();
         return <Alert variant={"success"}>Колесо створено!</Alert>

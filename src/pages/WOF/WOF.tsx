@@ -15,9 +15,11 @@ function WOF() {
     }, [])
 
 
+    if (wheel === undefined)
+        return <p>Loading...</p>
     if (wheel instanceof Error)
         return <Alert variant={"danger"}>Getting info about wheel: {wheel.message}</Alert>
-    if (wheel === undefined)
+    if (wheel === null)
         return <CreateWheel/>
 
     return <div>
