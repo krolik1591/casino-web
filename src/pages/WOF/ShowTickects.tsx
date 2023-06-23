@@ -5,7 +5,7 @@ export default function ShowTickets({tickets}) {
     const refChart = useRef(null)
 
     tickets = tickets.map((t) => ({
-        y: +new Date(t.buy_timestamp),
+        y: +new Date(t.buy_timestamp*1000),
         x: t.ticket_num,
         user: t.user,
         type: t.ticket_type,
