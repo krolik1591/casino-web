@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Button, Form, InputGroup} from "react-bootstrap";
 import {backend} from "../../helpers/backend";
 import {useAuthUser} from "react-auth-kit";
+import { MyInput } from "../../components/MyInput";
 
 
 export default function CreateWheel() {
@@ -71,15 +72,6 @@ export default function CreateWheel() {
     );
 }
 
-
-export function MyInput({children, label}) {
-    return <>
-        <Form.Label>{label}</Form.Label>
-        <InputGroup className="mb-3">
-            {children}
-        </InputGroup>
-    </>
-}
 
 function defaultDate(addDays) {
     const result = new Date();
