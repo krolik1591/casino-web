@@ -1,25 +1,40 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAuthUser, useSignIn, useSignOut} from 'react-auth-kit';
 import TelegramLoginButton from 'react-telegram-login';
-import {Button} from "react-bootstrap";
-import {botUsername} from "../config";
+import {Alert, Button} from "react-bootstrap";
+import {backendUrl, botUsername} from "../config";
+import {backend} from "../helpers/backend";
 
 export default function Index() {
     const authF = useAuthUser()
     const signOut = useSignOut()
 
-
     const auth = authF();
+    const [backendInfo, setBackendInfo] = useState(undefined)
+
+    useEffect(() => {
+        if (!auth) return;
+        backend("/info", authF()).then(setBackendInfo).catch(setBackendInfo);
+    }, []);
 
     if (!auth)
         return <Login botName={botUsername}/>
 
-    return (
-      <div>
-          <h1> Hi {auth.first_name} </h1>
-          <Button variant={"danger"} onClick={() => signOut()}>Sign Out</Button>
-      </div>
-    )
+    function BackendInfo() {
+        if (backendInfo == undefined) return <p>Loading backend info...</p>;
+        if (backendInfo instanceof Error) return <Alert variant={"danger"}>Backend error: {backendInfo.message}</Alert>;
+        return <p> Bot: <a href={backendInfo.bot_info.url}>
+            {backendInfo.bot_info.name} (@{backendInfo.bot_info.username})
+        </a></p>
+    }
+
+    return <div>
+        <h1> Hi {auth.first_name} </h1>
+        <p>Your id: {auth.id}; @{auth.username}</p>
+        <p>Backend url: <a href={backendUrl}>{backendUrl}</a></p>
+        <BackendInfo/>
+        <Button variant={"danger"} onClick={() => signOut()}>Sign Out</Button>
+    </div>
 
 }
 
@@ -48,7 +63,9 @@ function Login({botName}) {
     }
 
     return <>
+        <h1>Login</h1>
         <TelegramLoginButton dataOnauth={handleTelegramResponse} botName={botName}/>
-        <Button onClick={() => handleTelegramResponse(fakeLogin)}>Fake login as svin</Button>
+        <Button onClick={() => handleTelegramResponse(fakeLogin)}>Fake login as svin (185520398) /
+            @stillnowoman_bot</Button>
     </>
 }
