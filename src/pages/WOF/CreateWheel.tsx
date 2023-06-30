@@ -32,7 +32,6 @@ export default function CreateWheel() {
             commission: input.commission,
             distribution: input.distribution.split(",").map(x => +x.trim()),
             admin_id: auth().id,
-            winner_tickets_count: input.winner_tickets_count
         }
         backend("/wof/create", auth(), data).then(setResp).catch(setResp)
     }
@@ -61,15 +60,6 @@ export default function CreateWheel() {
               </MyInput>
               <MyInput label={"Winning Distribution"}>
                   <Form.Control type="text" name={'distribution'} value={input.distribution} onChange={handleChange}/>
-              </MyInput>
-              <MyInput label={"Скіко виграшних білетів треба? Ви обрали: " + input.winner_tickets_count}>
-              <Form.Range
-                  name="winner_tickets_count"
-                  value={input.winner_tickets_count}
-                  onChange={handleChange}
-                  min={0}
-                  max={input.distribution.split(",").length}
-              />
               </MyInput>
 
               <Button type='submit'> Create </Button>

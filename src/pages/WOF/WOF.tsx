@@ -48,10 +48,10 @@ function ShowWheelInfo({wheel}) {
 function ShowWinners({winners}) {
     function Winner({index, winner}) {
         return <Card> <Card.Body>
-            <Card.Title>{index + 1}: <code>#TODO</code></Card.Title>
+            <Card.Title>{index + 1}: <code>{winner[2]}</code></Card.Title>
             <Card.Text>Nearest bought ticket: <b><code>{winner[0]}</code></b> <br/>
                 by user: {winner[1]}</Card.Text>
-            <Card.Text>Win amount: #TODO</Card.Text>
+            <Card.Text>Win amount: {winner[3]}</Card.Text>
         </Card.Body> </Card>
     }
 
@@ -71,25 +71,49 @@ function ShowWinners({winners}) {
 }
 
 function BuyTicket() {
-    const auth = useAuthUser()
-    const [resp, setResp] = useState(undefined)
+    const auth = useAuthUser();
+    const [resp, setResp] = useState(undefined);
+    const [ticketNumber, setTicketNumber] = useState("");
 
     const handleBuyTicket = async () => {
-        const addTicket = {'admin_id': auth().id}
-        await backend("/wof/add_win_ticket", auth(), addTicket).then(setResp).catch(setResp)
+        const addTicket = {
+            admin_id: auth().id,
+            ticket_number: ticketNumber
+        };
+        await backend("/wof/add_win_ticket", auth(), addTicket)
+            .then(setResp)
+            .catch(setResp);
+        setTicketNumber(""); // Очищення поля вводу
+    };
+
+    const handleTicketNumberChange = (e) => {
+        const value = e.target.value;
+        if (value.length <= 7) {
+            setTicketNumber(value);
+        }
     };
 
     function Result() {
-        if (resp === undefined) return;
-        if (resp instanceof Error) return <Alert variant={"danger"}> {resp.message} </Alert>
+        if (resp === undefined) return null;
+        if (resp instanceof Error)
+            return <Alert variant={"danger"}> {resp.message} </Alert>;
         window.location.reload();
-        return <Alert variant={"success"}> Білет куплено </Alert>
+        return <Alert variant={"success"}> Білет куплено </Alert>;
     }
 
-    return <>
-        <Button onClick={handleBuyTicket}>Купити виграшний білет</Button>
-        <Result/>
-    </>
+    return (
+        <>
+            <input
+                type="number"
+                value={ticketNumber}
+                onChange={handleTicketNumberChange}
+                placeholder="Введіть номер білету"
+                maxLength={7} // Обмеження до 7 цифр
+            />
+            <Button onClick={handleBuyTicket}>Купити білет</Button>
+            <Result />
+        </>
+    );
 }
 
 function ChangeDate(props) {
