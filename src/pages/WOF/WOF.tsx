@@ -38,7 +38,7 @@ function ShowWheelInfo({wheel}) {
         <p> Ticket cost: {wheel.ticket_cost} </p>
         <p> Commission: {wheel.commission}% </p>
         <p> Rewards: {JSON.parse(wheel.rewards).map((r) => r + "%").join(", ")} </p>
-        <p> Creation date: {dateToISO(new Date(wheel.timestamp_start*1000))} </p>
+        <p> Creation date: {dateToISO(new Date(wheel.timestamp_start * 1000))} </p>
         <ChangeDate initialDate={new Date(wheel.timestamp_end * 1000)}/>
         <p>todo: total tickets count, total tickets cost, total win amount</p>
     </Container>
@@ -59,9 +59,9 @@ function ShowWinners({winners}) {
         <h3>Winner tickets</h3>
         <Row>
             {winners.map((winner, index) => (
-              <Col key={index} sm={6} md={4} lg={3}>
-                <Winner index={index} winner={winner}/>
-              </Col>
+                <Col key={index} sm={6} md={4} lg={3}>
+                    <Winner index={index} winner={winner}/>
+                </Col>
             ))}
         </Row>
 
@@ -103,15 +103,19 @@ function BuyTicket() {
 
     return (
         <>
-            <input
-                type="number"
-                value={ticketNumber}
-                onChange={handleTicketNumberChange}
-                placeholder="Введіть номер білету"
-                maxLength={7} // Обмеження до 7 цифр
-            />
-            <Button onClick={handleBuyTicket}>Купити білет</Button>
-            <Result />
+            <MyInput label={''}>
+                <Form.Control
+                    type="number"
+                    value={ticketNumber}
+                    onChange={handleTicketNumberChange}
+                    placeholder="Введіть номер білету"
+                    maxLength={7} // Обмеження до 7 цифр
+                    min={0}
+                />
+
+                <Button onClick={handleBuyTicket}>Купити білет</Button>
+            </MyInput>
+            <Result/>
         </>
     );
 }
