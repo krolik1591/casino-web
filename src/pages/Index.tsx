@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {useAuthUser, useSignIn, useSignOut} from 'react-auth-kit';
 import TelegramLoginButton from 'react-telegram-login';
-import {Alert, Button} from "react-bootstrap";
+import {Alert, Button, Form} from "react-bootstrap";
 import {backendUrl, botUsername} from "../config";
 import {backend} from "../helpers/backend";
+import {MyInput} from "../components/MyInput";
 
 export default function Index() {
     const authF = useAuthUser()
@@ -42,7 +43,7 @@ export default function Index() {
 function Login({botName}) {
     const signIn = useSignIn()
 
-    const handleTelegramResponse = (response) => {
+    function handleTelegramResponse(response) {
         const res = signIn({
             token: "token",
             expiresIn: 99999999,
@@ -65,7 +66,29 @@ function Login({botName}) {
     return <>
         <h1>Login</h1>
         <TelegramLoginButton dataOnauth={handleTelegramResponse} botName={botName}/>
-        <Button onClick={() => handleTelegramResponse(fakeLogin)}>Fake login as svin (185520398) /
-            @stillnowoman_bot</Button>
+        {/*<Button onClick={() => handleTelegramResponse(fakeLogin)}>Fake login as svin (185520398) /*/}
+        {/*    @stillnowoman_bot</Button>*/}
+        <KeyLogin handleLogin={handleTelegramResponse}/>
+    </>
+}
+
+function KeyLogin({handleLogin}) {
+    const [value, setValue] = useState("")
+    function handleKeyLogin() {
+        const authJson = atob(value);
+        const auth = JSON.parse(authJson);
+        handleLogin(auth)
+    }
+
+    return <>
+        <MyInput label={'Авторизація через ключ з боту /admin_login'}>
+            <Form.Control
+                value={value}
+                onChange={e => setValue(e.target.value)}
+                placeholder="Введіть ключ"
+            />
+
+            <Button onClick={handleKeyLogin}>Login</Button>
+        </MyInput>
     </>
 }
