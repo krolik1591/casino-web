@@ -8,7 +8,7 @@ import Index from './pages/Index';
 import {AuthProvider} from "react-auth-kit";
 import Promo from "./pages/Promo";
 import Settings from './pages/Settings';
-import Users from './pages/Users';
+import Users from './pages/Users/Users';
 import Broadcast from './pages/Broadcast';
 import Stats from './pages/Stats';
 
