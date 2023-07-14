@@ -6,7 +6,7 @@ import {Root} from "./pages/Root";
 import WOF from "./pages/WOF/WOF";
 import Index from './pages/Index';
 import {AuthProvider} from "react-auth-kit";
-import Promo from "./pages/Promo";
+import Promo from "./pages/Promocodes/Promo";
 import Settings from './pages/Settings';
 import Users from './pages/Users/Users';
 import Broadcast from './pages/Broadcast';
